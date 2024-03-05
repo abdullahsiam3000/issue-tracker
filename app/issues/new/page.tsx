@@ -1,5 +1,5 @@
 'use client'
-import { Button, Callout, TextField } from '@radix-ui/themes'
+import { Button, Callout, Text, TextField } from '@radix-ui/themes'
 import SimpleMDE from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createIssueSchema } from '@/app/issueFormSchema'
 
 interface ICreateIssueInput {
   title: string
@@ -15,7 +17,14 @@ interface ICreateIssueInput {
 
 const NewIssuePage = () => {
   const router = useRouter()
-  const { register, control, handleSubmit } = useForm<ICreateIssueInput>()
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ICreateIssueInput>({
+    resolver: zodResolver(createIssueSchema),
+  })
 
   const [error, setError] = useState('')
 
@@ -27,8 +36,6 @@ const NewIssuePage = () => {
       setError('An unexpected error occured')
     }
   }
-
-  console.log(error)
 
   return (
     <div className=' max-w-xl'>
@@ -44,14 +51,23 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder='Title' {...register('title')} />
         </TextField.Root>
+        {errors?.title && (
+          <Text color='red' as='p'>
+            {errors?.title?.message}
+          </Text>
+        )}
         <Controller
           name='description'
           control={control}
           render={({ field }) => {
-            console.log(field, 'field')
             return <SimpleMDE placeholder='Description' {...field} />
           }}
         />
+        {errors?.description && (
+          <Text color='red' as='p'>
+            {errors?.description?.message}
+          </Text>
+        )}
         <Button>Create New Issue</Button>
       </form>
     </div>
