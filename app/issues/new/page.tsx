@@ -1,10 +1,12 @@
 'use client'
-import { Button, TextField } from '@radix-ui/themes'
+import { Button, Callout, TextField } from '@radix-ui/themes'
 import SimpleMDE from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { IoIosInformationCircleOutline } from 'react-icons/io'
 
 interface ICreateIssueInput {
   title: string
@@ -15,15 +17,30 @@ const NewIssuePage = () => {
   const router = useRouter()
   const { register, control, handleSubmit } = useForm<ICreateIssueInput>()
 
+  const [error, setError] = useState('')
+
   const onSubmit: SubmitHandler<ICreateIssueInput> = async (data) => {
-    const res = await axios.post('/api/issues', data)
-    console.log(res.data, 'response from client')
-    router.push('/issues')
+    try {
+      await axios.post('/api/issues', data)
+      router.push('/issues')
+    } catch (error) {
+      setError('An unexpected error occured')
+    }
   }
 
+  console.log(error)
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='max-w-xl space-y-3'>
+    <div className=' max-w-xl'>
+      {error && (
+        <Callout.Root color='red' className='mb-2'>
+          <Callout.Icon>
+            <IoIosInformationCircleOutline size={'1.4em'} />
+          </Callout.Icon>
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>
+      )}
+      <form className='space-y-3' onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root>
           <TextField.Input placeholder='Title' {...register('title')} />
         </TextField.Root>
@@ -36,8 +53,8 @@ const NewIssuePage = () => {
           }}
         />
         <Button>Create New Issue</Button>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
 
