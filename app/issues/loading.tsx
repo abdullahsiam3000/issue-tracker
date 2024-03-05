@@ -1,12 +1,12 @@
 import { Table } from '@radix-ui/themes'
 import React from 'react'
-import prisma from '@/prisma/client'
 import IssueStatusBadge from '../components/IssueStatusBadge'
-import delay from 'delay'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import IssueActions from './IssueActions'
-const IssuePage = async () => {
-  const issues = await prisma.issue.findMany()
-  await delay(2000)
+
+const IssuesLoading = () => {
+  const issues = [1, 2, 3, 4, 5, 6]
   return (
     <div>
       <IssueActions />
@@ -25,20 +25,22 @@ const IssuePage = async () => {
         </Table.Header>
 
         <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
+          {issues.map((issue, index) => (
+            <Table.Row key={index}>
               <Table.Cell>
-                {issue.title}
+                <Skeleton />
                 <div className='mt-2 block md:hidden'>
-                  <IssueStatusBadge status={issue.status} />
+                  <Skeleton />
                 </div>
               </Table.Cell>
-              <Table.Cell className='hidden md:table-cell'>{issue.description}</Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
-                <IssueStatusBadge status={issue.status} />
+                <Skeleton />
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
-                {issue.createdAt.toLocaleDateString()}
+                <Skeleton />
+              </Table.Cell>
+              <Table.Cell className='hidden md:table-cell'>
+                <Skeleton />
               </Table.Cell>
             </Table.Row>
           ))}
@@ -48,4 +50,4 @@ const IssuePage = async () => {
   )
 }
 
-export default IssuePage
+export default IssuesLoading
