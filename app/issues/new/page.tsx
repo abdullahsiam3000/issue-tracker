@@ -1,6 +1,8 @@
 'use client'
-import { Button, Callout, Text, TextField } from '@radix-ui/themes'
-import SimpleMDE from 'react-simplemde-editor'
+
+import dynamic from 'next/dynamic'
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
+import { Button, Callout, TextField } from '@radix-ui/themes'
 import 'easymde/dist/easymde.min.css'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import axios from 'axios'
@@ -9,6 +11,7 @@ import { useState } from 'react'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createIssueSchema } from '@/app/issueFormSchema'
+import ErrorMessage from '@/app/components/ErrorMessage'
 
 interface ICreateIssueInput {
   title: string
@@ -38,7 +41,7 @@ const NewIssuePage = () => {
   }
 
   return (
-    <div className=' max-w-xl'>
+    <div className='max-w-xl'>
       {error && (
         <Callout.Root color='red' className='mb-2'>
           <Callout.Icon>
@@ -51,11 +54,7 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder='Title' {...register('title')} />
         </TextField.Root>
-        {errors?.title && (
-          <Text color='red' as='p'>
-            {errors?.title?.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
           control={control}
@@ -63,11 +62,7 @@ const NewIssuePage = () => {
             return <SimpleMDE placeholder='Description' {...field} />
           }}
         />
-        {errors?.description && (
-          <Text color='red' as='p'>
-            {errors?.description?.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Create New Issue</Button>
       </form>
     </div>
