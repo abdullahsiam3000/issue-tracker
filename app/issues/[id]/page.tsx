@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { Card, Flex, Heading, Text } from '@radix-ui/themes'
 import { capitalizeFirstLetter } from '@/app/utils/capitalizeFirstLetter'
 import IssueStatusBadge from '@/app/components/IssueStatusBadge'
+import Markdown from 'react-markdown'
 interface Props {
   params: { id: string }
 }
@@ -20,8 +21,8 @@ const IssueDetailPage = async ({ params }: Props) => {
         </Text>
         <Text>{issue?.createdAt.toDateString()}</Text>
       </Flex>
-      <Card>
-        <p>{issue?.description}</p>
+      <Card className='prose' mt={'6'}>
+        <Markdown>{issue?.description}</Markdown>
       </Card>
     </div>
   )

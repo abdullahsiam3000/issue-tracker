@@ -15,9 +15,6 @@ const IssuePage = async () => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Description
-            </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className='hidden md:table-cell'>
               Created
@@ -34,7 +31,6 @@ const IssuePage = async () => {
                   <IssueStatusBadge status={issue.status} />
                 </div>
               </Table.Cell>
-              <Table.Cell className='hidden md:table-cell'>{issue.description}</Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
                 <IssueStatusBadge status={issue.status} />
               </Table.Cell>
