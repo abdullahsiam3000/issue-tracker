@@ -1,9 +1,8 @@
-import React from 'react'
-import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
-import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes'
+import { IssueStatusBadge } from '@/app/components'
 import { capitalizeFirstLetter } from '@/app/utils/capitalizeFirstLetter'
-import IssueStatusBadge from '@/app/components/IssueStatusBadge'
+import prisma from '@/prisma/client'
+import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes'
+import { notFound } from 'next/navigation'
 import Markdown from 'react-markdown'
 
 interface Props {
