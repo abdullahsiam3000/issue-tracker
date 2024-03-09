@@ -1,6 +1,6 @@
 'use client'
 import { Spinner, ErrorMessage } from '@/app/components'
-import { createIssueSchema } from '@/app/issueFormSchema'
+import { issueSchema } from '@/app/issueFormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Callout, TextField } from '@radix-ui/themes'
 import 'easymde/dist/easymde.min.css'
@@ -20,7 +20,6 @@ interface ICreateIssueInput {
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter()
-  console.log(issue)
 
   const {
     register,
@@ -28,7 +27,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ICreateIssueInput>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   })
 
   const [error, setError] = useState('')
