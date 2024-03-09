@@ -10,6 +10,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
+import { Issue } from '@prisma/client'
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
 
 interface ICreateIssueInput {
@@ -17,8 +18,10 @@ interface ICreateIssueInput {
   description: string
 }
 
-const IssueForm = () => {
+const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter()
+  console.log(issue)
+
   const {
     register,
     control,
@@ -54,12 +57,13 @@ const IssueForm = () => {
       )}
       <form className='space-y-3' onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root>
-          <TextField.Input placeholder='Title' {...register('title')} />
+          <TextField.Input defaultValue={issue?.title} placeholder='Title' {...register('title')} />
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
           control={control}
+          defaultValue={issue?.description}
           render={({ field }) => {
             return <SimpleMDE placeholder='Description' {...field} />
           }}
