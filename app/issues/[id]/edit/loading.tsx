@@ -1,7 +1,2 @@
-import React from 'react'
-
-const EditIssueLoading = () => {
-  return <div>Loading...</div>
-}
-
-export default EditIssueLoading
+import IssueFormSkeleton from '../../_components/IssueFormSkeleton'
+export default IssueFormSkeleton

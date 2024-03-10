@@ -4,14 +4,13 @@ import { issueSchema } from '@/app/issueFormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Callout, TextField } from '@radix-ui/themes'
 import 'easymde/dist/easymde.min.css'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import axios from 'axios'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
 import { Issue } from '@prisma/client'
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
+import SimpleMDE from 'react-simplemde-editor'
 
 interface ICreateIssueInput {
   title: string
