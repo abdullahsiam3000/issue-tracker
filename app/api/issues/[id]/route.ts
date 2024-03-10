@@ -1,6 +1,7 @@
 import { issueSchema } from '@/app/issueFormSchema'
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
+import delay from 'delay'
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   const body = await request.json()
@@ -26,6 +27,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   const issueId = parseInt(params.id)
+
   const issue = await prisma.issue.findUnique({ where: { id: issueId } })
   if (!issue) {
     return NextResponse.json({ error: 'Invalid Request' }, { status: 404 })
