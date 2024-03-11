@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 
-import { Box, Container, Flex } from '@radix-ui/themes'
+import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -48,7 +48,27 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
-            {status === 'authenticated' && <Link href={'/api/auth/signout'}>Logout</Link>}{' '}
+            {status === 'authenticated' && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    fallback='?'
+                    src={session.user!.image!}
+                    size={'2'}
+                    radius='full'
+                    className='cursor-pointer'
+                  />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size={'3'}>{session.user?.email}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <Link href={'/api/auth/signout'}>Logout</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
             {status === 'unauthenticated' && <Link href={'/api/auth/signin'}>Login</Link>}
           </Box>
         </Flex>
