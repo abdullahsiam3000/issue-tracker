@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { PiBugBeetleLight } from 'react-icons/pi'
-
+import { Skeleton } from '@/app/components'
 const NavBar = () => {
   const currentPath = usePathname()
   const { status, data: session } = useSession()
@@ -69,6 +69,7 @@ const NavBar = () => {
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             )}
+            {status === 'loading' && <Skeleton width='3rem' />}
             {status === 'unauthenticated' && <Link href={'/api/auth/signin'}>Login</Link>}
           </Box>
         </Flex>
