@@ -1,21 +1,30 @@
 import authOptions from '@/app/auth/authOptions'
-import { issueSchema } from '@/app/issueFormSchema'
+import { issueSchema, patchIssueSchema } from '@/app/issueFormSchema'
 import prisma from '@/prisma/client'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions)
+  // const session = await getServerSession(authOptions)
 
-  if (!session) {
-    return NextResponse.json({}, { status: 401 })
-  }
+  // if (!session) {
+  //   return NextResponse.json({}, { status: 401 })
+  // }
 
   const body = await request.json()
-  const validation = issueSchema.safeParse(body)
+  const validation = patchIssueSchema.safeParse(body)
 
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 404 })
+  }
+
+  const { assignedToUserId, title, description } = body
+
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({ where: { id: assignedToUserId } })
+    if (!user) {
+      return NextResponse.json({ error: 'Invalid User' }, { status: 400 })
+    }
   }
 
   const issue = await prisma?.issue.findUnique({ where: { id: parseInt(params.id) } })
@@ -25,8 +34,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 
   const updatedIssue = await prisma?.issue.update({
-    where: { id: parseInt(params.id) },
-    data: { title: body.title, description: body.description },
+    where: { id: issue.id },
+    data: { title, description, assignedToUserId },
   })
 
   return NextResponse.json(updatedIssue)
