@@ -4,7 +4,7 @@ import FilterByStatus from './_components/FilterByStatus'
 
 const IssueActions = () => {
   return (
-    <Flex justify={'between'} className='mb-5'>
+    <Flex justify={'between'}>
       <FilterByStatus />
       <Button>
         <Link href={'/issues/new'}>Create Issue</Link>
