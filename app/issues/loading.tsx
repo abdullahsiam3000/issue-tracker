@@ -1,19 +1,17 @@
-import { Table } from '@radix-ui/themes'
+import { Flex, Table } from '@radix-ui/themes'
 import { Skeleton } from '@/app/components'
 import IssueActions from './IssueActions'
 
 const IssuesLoading = () => {
   const issues = [1, 2, 3, 4, 5, 6]
   return (
-    <div>
+    <Flex direction={'column'} gap={'5'}>
       <IssueActions />
       <Table.Root variant='surface'>
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Description
-            </Table.ColumnHeaderCell>
+
             <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className='hidden md:table-cell'>
               Created
@@ -43,7 +41,7 @@ const IssuesLoading = () => {
           ))}
         </Table.Body>
       </Table.Root>
-    </div>
+    </Flex>
   )
 }
 
