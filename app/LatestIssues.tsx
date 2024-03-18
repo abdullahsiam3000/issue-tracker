@@ -10,7 +10,7 @@ const LatestIssues = async () => {
     take: 5,
     include: { assignedtoUser: true },
   })
-  console.log(latestIssues)
+
   return (
     <Card>
       <Heading size={'4'} mb={'5'}>
