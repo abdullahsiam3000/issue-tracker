@@ -5,6 +5,7 @@ import Pagination from '../components/Pagination'
 import IssueActions from './IssueActions'
 import IssueTable, { IssueQuery, columnNames } from './IssueTable'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 interface Props {
   searchParams: IssueQuery
@@ -33,7 +34,9 @@ const IssuePage = async ({ searchParams }: Props) => {
   return (
     <Flex direction={'column'} gap={'5'}>
       <IssueActions />
+
       <IssueTable issues={issues} searchParams={searchParams} />
+
       <Pagination currentPage={page} pageSize={pageSize} itemCount={issueCount} />
     </Flex>
   )

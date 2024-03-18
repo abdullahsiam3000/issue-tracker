@@ -7,6 +7,7 @@ import './globals.css'
 import { Container, Theme } from '@radix-ui/themes'
 import AuthProvider from './auth/Provider'
 import QueryClientProvider from './QueryClientProvider'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -28,7 +29,9 @@ export default function RootLayout({
             <Theme accentColor='violet' panelBackground='solid'>
               <NavBar />
               <main className='p-5'>
-                <Container>{children}</Container>
+                <Container>
+                  <Suspense>{children}</Suspense>
+                </Container>
               </main>
             </Theme>
           </AuthProvider>

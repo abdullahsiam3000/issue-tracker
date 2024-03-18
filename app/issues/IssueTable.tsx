@@ -4,6 +4,7 @@ import { Table } from '@radix-ui/themes'
 import { default as NextLink } from 'next/link'
 import { IssueStatusBadge } from '../components'
 import { Link } from '../components'
+import { Suspense } from 'react'
 
 export interface IssueQuery {
   status: Status
